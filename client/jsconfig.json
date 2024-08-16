@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"]
+          }
+    },
+    // "include": ["src/"]
+}
+// When you import different files from other files, just start from src
