@@ -11,13 +11,21 @@ const menuItems = [
 
 const TopBar = () => {
   const LoginComponent = () => {
-    return isLoggedIn ? (
-      <li className="">Hello Saransh</li>
-    ) : (
-      <li className="flex py-2 px-4 items-center content-center font-semibold text-primary-50 bg-primary-25 rounded-lg">
-        Login
-      </li>
-    );
+    if (isLoggedIn) {
+      // Add logic to get user image or else use initials
+      const user = useSelector((state) => state.auth.user);
+      return (
+        <li className="flex py-2 px-4 items-center content-center font-semibold text-primary-100 rounded-lg">
+          {user?.name}
+        </li>
+      );
+    } else {
+      return (
+        <li className="flex py-2 px-4 items-center content-center font-semibold text-primary-50 bg-primary-25 rounded-lg">
+          Login
+        </li>
+      );
+    }
   };
   const app_name = useSelector((state) => state.appname.name);
   const active_page = useSelector((state) => state.appname.active_page);
