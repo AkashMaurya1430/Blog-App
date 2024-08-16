@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import SignUp from "./screens/Signup";
+import Home from "./screens/Home";
 // import { useState } from "react";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<SignUp />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );
