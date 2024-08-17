@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 
 // Menu Items
@@ -9,24 +8,27 @@ const menuItems = [
   { name: "About", route: "/about" },
 ];
 
+const LoginComponent = ({isLoggedIn}) => {
+  // Add logic to get user image or else use initials
+  const user = useSelector((state) => state.auth.user);
+
+  if (isLoggedIn) {
+    return (
+      <li className="flex py-2 px-4 items-center content-center font-semibold text-primary-100 rounded-lg">
+        {user?.name}
+      </li>
+    );
+  } else {
+    return (
+      <li className="flex py-2 px-4 items-center content-center font-semibold text-primary-50 bg-primary-25 rounded-lg">
+        Login
+      </li>
+    );
+  }
+};
+
 const TopBar = () => {
-  const LoginComponent = () => {
-    if (isLoggedIn) {
-      // Add logic to get user image or else use initials
-      const user = useSelector((state) => state.auth.user);
-      return (
-        <li className="flex py-2 px-4 items-center content-center font-semibold text-primary-100 rounded-lg">
-          {user?.name}
-        </li>
-      );
-    } else {
-      return (
-        <li className="flex py-2 px-4 items-center content-center font-semibold text-primary-50 bg-primary-25 rounded-lg">
-          Login
-        </li>
-      );
-    }
-  };
+ 
   const app_name = useSelector((state) => state.appname.name);
   const active_page = useSelector((state) => state.appname.active_page);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -52,7 +54,7 @@ const TopBar = () => {
               </li>
             );
           })}
-          <LoginComponent />
+          <LoginComponent isLoggedIn={isLoggedIn}/>
         </ul>
       </nav>
     </div>
