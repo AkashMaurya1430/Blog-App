@@ -1,6 +1,7 @@
 import { Asterisk } from "lucide-react";
 import { useState } from "react";
 import * as Yup from "yup";
+import ProfileImageDropZone from "./profile_image_dropzone";
 
 const Input = ({ label, type, id, placeholder, name, value, onChange, className = "", required, errMessage }) => {
   return (
@@ -33,6 +34,8 @@ const Input = ({ label, type, id, placeholder, name, value, onChange, className 
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
+  const [profileImage, setProfileImage] = useState(null);
+
   const [errors, setErrors] = useState({});
 
   const signUpFormValidationSchema = Yup.object({
@@ -74,6 +77,7 @@ const SignUp = () => {
     <div className="flex items-center justify-center px-5 py-10 bg-light-50  h-screen">
       <form className="max-w-md mx-auto mt-8 p-6 bg-light-0 rounded w-full gap-4 shadow-md" onSubmit={handleSubmit} noValidate>
         <h2 className="text-2xl font-bold mb-6 text-center text-primary-50">Join Us</h2>
+        <ProfileImageDropZone profileImage={profileImage} setProfileImage={setProfileImage} />
         <Input
           className="text-sm"
           label="Username"
@@ -112,7 +116,7 @@ const SignUp = () => {
         />
         <button
           type="submit"
-          className="mt-4 w-full bg-dark-75 py-2 px-4 rounded  text-sm font-semibold text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white transition-colors duration-200"
+          className="mt-4 w-full bg-dark-75 py-2 px-4 rounded-2xl  text-sm font-semibold text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white transition-colors duration-200"
         >
           Sign Up
         </button>

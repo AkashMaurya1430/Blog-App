@@ -2,25 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base{
-    @font-face {
-        font-family: 'Raleway';
-        src: url('./assets/fonts/Raleway-Medium.woff2') format('woff2'),
-             url('./assets/fonts/Raleway-Medium.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-    
-    }
-}
-
-html{
-    font-family: 'Raleway',sans-serif;
-    font-weight: 500;
+@layer base {
+  @font-face {
+    font-family: "Raleway";
+    src: url("./assets/fonts/Raleway-Medium.woff2") format("woff2"), url("./assets/fonts/Raleway-Medium.woff") format("woff");
+    font-weight: normal;
     font-style: normal;
+  }
 }
 
-#root{
-    padding: 0;
-    margin: 0;
-    max-width: 99vw;
+html {
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+  font-style: normal;
 }
+
