@@ -2,6 +2,11 @@ import { Asterisk } from "lucide-react";
 import { useState } from "react";
 import * as Yup from "yup";
 import ProfileImageDropZone from "./profile_image_dropzone";
+import { userLogin, userRegister } from "@/services/auth";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { login } from "@/slices/authslice/authslice";
+import { redirect } from "react-router-dom";
 
 const Input = ({ label, type, id, placeholder, name, value, onChange, className = "", required, errMessage }) => {
   return (
@@ -33,6 +38,8 @@ const Input = ({ label, type, id, placeholder, name, value, onChange, className 
 };
 
 const SignUp = ({ formType }) => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({});
   const [profileImage, setProfileImage] = useState(null);
 
@@ -71,6 +78,8 @@ const SignUp = ({ formType }) => {
       }
       console.log("Form Submitted", formData);
       setErrors({});
+
+      formType == "sign_up" ? registerUser() : loginUser();
     } catch (err) {
       const newError = {};
       err.inner.forEach((errLog) => {
@@ -83,6 +92,32 @@ const SignUp = ({ formType }) => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const registerUser = async () => {
+    await userRegister(formData)
+      .then((res) => {
+        console.log("res: ", res);
+        toast.success("User Registered");
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
+  };
+
+  const loginUser = async () => {
+    // console.log("loginUser: ", loginUser);
+    await userLogin(formData)
+      .then((res) => {
+        // console.log("res: ", res);
+        toast.success("User Logged in successfully");
+        dispatch(login(res.data));
+        redirect("/home");
+      })
+      .catch((err) => {
+        // console.log("err: ", err);
+        toast.error(err.response.data.message);
+      });
   };
 
   return (
