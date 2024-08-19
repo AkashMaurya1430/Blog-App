@@ -2,6 +2,11 @@ import { Asterisk } from "lucide-react";
 import { useState } from "react";
 import * as Yup from "yup";
 import ProfileImageDropZone from "./profile_image_dropzone";
+import { userLogin, userRegister } from "@/services/auth";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { login } from "@/slices/authslice/authslice";
+import { redirect } from "react-router-dom";
 
 const Input = ({ label, type, id, placeholder, name, value, onChange, className = "", required, errMessage }) => {
   return (
@@ -32,7 +37,9 @@ const Input = ({ label, type, id, placeholder, name, value, onChange, className 
   );
 };
 
-const SignUp = () => {
+const SignUp = ({ formType }) => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({});
   const [profileImage, setProfileImage] = useState(null);
 
@@ -49,22 +56,36 @@ const SignUp = () => {
       .required("Password cannot be empty"),
   });
 
+  const loginFormValidationSchema = Yup.object({
+    // username: Yup.string().required("Username cannot be empty"),
+    email: Yup.string().required("Email cannot be empty").email("Please enter a valid email"),
+    password: Yup.string()
+      // .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+      // .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+      // .matches(/\d/, "Password must contain at least one number")
+      // .min(8, "Password must be atleast 8 characters")
+      .required("Password cannot be empty"),
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await signUpFormValidationSchema.validate(formData, { abortEarly: false });
+      if (formType == "sign_up") {
+        await signUpFormValidationSchema.validate(formData, { abortEarly: false });
+      } else {
+        await loginFormValidationSchema.validate(formData, { abortEarly: false });
+      }
       console.log("Form Submitted", formData);
       setErrors({});
+
+      formType == "sign_up" ? registerUser() : loginUser();
     } catch (err) {
-      console.log("err: ", err.inner);
       const newError = {};
       err.inner.forEach((errLog) => {
-        console.log("errLog: ", errLog);
         newError[errLog.path] = errLog.message;
       });
 
-      console.log("newError: ", newError);
       setErrors(newError);
     }
   };
@@ -73,23 +94,52 @@ const SignUp = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const registerUser = async () => {
+    await userRegister(formData)
+      .then((res) => {
+        console.log("res: ", res);
+        toast.success("User Registered");
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
+  };
+
+  const loginUser = async () => {
+    // console.log("loginUser: ", loginUser);
+    await userLogin(formData)
+      .then((res) => {
+        // console.log("res: ", res);
+        toast.success("User Logged in successfully");
+        dispatch(login(res.data));
+        redirect("/home");
+      })
+      .catch((err) => {
+        // console.log("err: ", err);
+        toast.error(err.response.data.message);
+      });
+  };
+
   return (
     <div className="flex items-center justify-center px-5 py-10 bg-light-50  h-screen">
       <form className="max-w-md mx-auto mt-8 p-6 bg-light-0 rounded w-full gap-4 shadow-md" onSubmit={handleSubmit} noValidate>
-        <h2 className="text-2xl font-bold mb-6 text-center text-primary-50">Join Us</h2>
-        <ProfileImageDropZone profileImage={profileImage} setProfileImage={setProfileImage} />
-        <Input
-          className="text-sm"
-          label="Username"
-          name="username"
-          type="text"
-          id="username"
-          placeholder="Enter your username"
-          onChange={handleChange}
-          value={formData.username ? formData.username : ""}
-          errMessage={errors.username}
-          required
-        />
+        <h2 className="text-2xl font-bold mb-6 text-center text-primary-50">{formType === "sign_up" ? "Sign Up" : "Sign In"}</h2>
+        {formType === "sign_up" && <ProfileImageDropZone profileImage={profileImage} setProfileImage={setProfileImage} />}
+
+        {formType === "sign_up" && (
+          <Input
+            className="text-sm"
+            label="Username"
+            name="username"
+            type="text"
+            id="username"
+            placeholder="Enter your username"
+            onChange={handleChange}
+            value={formData.username ? formData.username : ""}
+            errMessage={errors.username}
+            required
+          />
+        )}
         <Input
           className="text-sm"
           label="Email"
@@ -118,7 +168,7 @@ const SignUp = () => {
           type="submit"
           className="mt-4 w-full bg-dark-75 py-2 px-4 rounded-2xl  text-sm font-semibold text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white transition-colors duration-200"
         >
-          Sign Up
+          {formType === "sign_up" ? "Sign Up" : "Login"}
         </button>
       </form>
     </div>
