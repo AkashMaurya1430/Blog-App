@@ -13,79 +13,42 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
 const ToolBar = ({ changeActiveElement }) => {
-  const [isToolBarOpen, setIsToolbarOpen] = useState(false);
-
-  const captureToolBarClick = (e) => {
-    setIsToolbarOpen(!isToolBarOpen);
-  };
-
   const captureActiveInput = (active_input) => {
     changeActiveElement(active_input);
   };
   return (
     <div>
-      <FontAwesomeIcon
-        onClick={() => {
-          captureToolBarClick();
-        }}
-        className="text-sm p-3 w-fit text-dark-100 bg-light-50 rounded-full cursor-pointer"
-        icon={isToolBarOpen ? faXmark : faPlus}
-      />
-      {isToolBarOpen && (
-        <div className="py-2 px-1 grid grid-cols-7 bg-light-50 rounded-lg w-fit">
-          <FontAwesomeIcon
-            onClick={() => {
-              captureActiveInput("text");
-            }}
-            className="text-dark-100 p-2 rounded-full cursor-pointer hover:underline hover:bg-light-0 hover:underline-offset-1"
-            icon={faFont}
-          />
-          <FontAwesomeIcon
-            onClick={() => {
-              captureActiveInput("quote");
-            }}
-            className="text-dark-100 p-2 rounded-full cursor-pointer hover:underline hover:bg-light-0 hover:underline-offset-1"
-            icon={faQuoteLeft}
-          />
-          <FontAwesomeIcon
-            onClick={() => {
-              captureActiveInput("code");
-            }}
-            className="text-dark-100 p-2 rounded-full cursor-pointer hover:underline hover:bg-light-0 hover:underline-offset-1"
-            icon={faCode}
-          />
+      <div className="py-2 px-1 grid grid-cols-4 bg-light-50 rounded-lg w-fit">
+        <FontAwesomeIcon
+          onClick={() => {
+            captureActiveInput("text");
+          }}
+          className="text-dark-100 p-2 rounded-full cursor-pointer hover:underline hover:bg-light-0 hover:underline-offset-1"
+          icon={faFont}
+        />
+        <FontAwesomeIcon
+          onClick={() => {
+            captureActiveInput("quote");
+          }}
+          className="text-dark-100 p-2 rounded-full cursor-pointer hover:underline hover:bg-light-0 hover:underline-offset-1"
+          icon={faQuoteLeft}
+        />
+        <FontAwesomeIcon
+          onClick={() => {
+            captureActiveInput("code");
+          }}
+          className="text-dark-100 p-2 rounded-full cursor-pointer hover:underline hover:bg-light-0 hover:underline-offset-1"
+          icon={faCode}
+        />
 
-          <FontAwesomeIcon
-            onClick={() => {
-              captureActiveInput("unordered_list");
-            }}
-            className="text-dark-100 p-2 rounded-full cursor-pointer hover:underline hover:bg-light-0 hover:underline-offset-1"
-            icon={faList12}
-          />
-
-          <FontAwesomeIcon
-            onClick={() => {
-              captureActiveInput("ordered_list");
-            }}
-            className="text-dark-100 p-2 rounded-full cursor-pointer hover:underline hover:bg-light-0 hover:underline-offset-1"
-            icon={faListOl}
-          />
-          <FontAwesomeIcon
-            onClick={() => {
-              captureActiveInput("image");
-            }}
-            className="text-dark-100 p-2 rounded-full cursor-pointer hover:underline hover:bg-light-0 hover:underline-offset-1"
-            icon={faImage}
-          />
-          <FontAwesomeIcon
-            onClick={() => {
-              captureActiveInput("new_section");
-            }}
-            className="text-dark-100 p-2 rounded-full cursor-pointer hover:underline hover:bg-light-0 hover:underline-offset-1"
-            icon={faSquareFull}
-          />
-        </div>
-      )}
+        <FontAwesomeIcon
+          onClick={() => {
+            captureActiveInput("image");
+          }}
+          className="text-dark-100 p-2 rounded-full cursor-pointer hover:underline hover:bg-light-0 hover:underline-offset-1"
+          icon={faImage}
+        />
+      </div>
     </div>
   );
 };
