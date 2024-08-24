@@ -12,7 +12,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
-const ToolBar = () => {
+const ToolBar = ({ changeActiveElement }) => {
   const [isToolBarOpen, setIsToolbarOpen] = useState(false);
 
   const captureToolBarClick = (e) => {
@@ -20,7 +20,7 @@ const ToolBar = () => {
   };
 
   const captureActiveInput = (active_input) => {
-    console.log("active_input", active_input);
+    changeActiveElement(active_input);
   };
   return (
     <div>
@@ -28,7 +28,7 @@ const ToolBar = () => {
         onClick={() => {
           captureToolBarClick();
         }}
-        className="text-dark-100 bg-light-50 p-2 rounded-full cursor-pointer"
+        className="text-sm p-3 w-fit text-dark-100 bg-light-50 rounded-full cursor-pointer"
         icon={isToolBarOpen ? faXmark : faPlus}
       />
       {isToolBarOpen && (

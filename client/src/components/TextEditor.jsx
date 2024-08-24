@@ -10,17 +10,6 @@ const TextEditor = () => {
     setEditorContent(content); // Update the state with the editor content
   };
 
-  // Define the custom button functionality
-  const insertImage = () => {
-    const quill = quillRef.current.getEditor();
-    const cursorPosition = quill.getSelection().index;
-    quill.insertText(
-      cursorPosition,
-      `Timestamp: ${new Date().toLocaleString()}`
-    );
-    quill.setSelection(cursorPosition + 18); // Move the cursor after the inserted text
-  };
-
   return (
     <div>
       <ReactQuill
