@@ -1,6 +1,5 @@
 import PageTitle from "@/components/PageTitle";
 import TopBar from "@/components/TopBar";
-import React from "react";
 import ToolBar from "./ToolBar";
 import TextEditor from "@/components/TextEditor";
 
