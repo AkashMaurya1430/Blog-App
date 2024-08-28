@@ -29,18 +29,27 @@ const AddBlog = () => {
     setDomElements([...domElements, activeElement]);
   };
 
+  // Handle Image Upload
+  const handleFileChange = (event) => {
+    const files = event.target.files;
+
+    for (let i = 0; i < files.length; i++) {
+      console.log(`File ${i + 1}:`, files[i].name);
+    }
+  };
+
   return (
     <div>
       <TopBar />
-      <div>
+      <div className="px-5">
         <input
           type="text"
           name="title"
-          className="border border-none focus:border focus:border-none active:border active:border-none py-5 px-5 mb-4 h-20 text-dark-50 text-2xl font-medium"
+          className="border border-none focus:outline-none  active:outline-none py-2 mb-2 h-20 text-dark-100 text-2xl font-medium"
           placeholder="TItle Of Your Story"
         />
       </div>
-      <div className="w-full flex flex-row gap-6 px-5">
+      <div className="w-full flex flex-col md:flex-row lg:flex-row xl:flex-row gap-6 px-5">
         <div className="flex flex-col w-3/4 ">
           <div className=" flex flex-col gap-4">
             {domElements.map((element, i) => {
@@ -51,7 +60,7 @@ const AddBlog = () => {
           </div>
 
           <div className="toolbar flex w-fit gap-2 mt-4">
-            <div className="flex flex-col">
+            <div className="flex flex-col ">
               <div className="flex flex-row items-center justify-start gap-2 my-2">
                 <button
                   className="btn text-dark-100 bg-light-50 w-9 h-9  font-medium rounded-full cursor-pointer"
@@ -66,7 +75,10 @@ const AddBlog = () => {
                 </button>
               </div>
               {isToolBarOpen && (
-                <ToolBar changeActiveElement={changeActiveElement} />
+                <ToolBar
+                  changeActiveElement={changeActiveElement}
+                  handleFileChange={handleFileChange}
+                />
               )}
             </div>
           </div>
@@ -77,7 +89,7 @@ const AddBlog = () => {
               <input
                 type="text"
                 name="sub-title"
-                className="focus:border-none active:border-none p-2 h-12 text-dark-50 text-md font-normal"
+                className="focus:outline-none active:outline-none p-2 h-12 text-dark-100 text-md font-normal"
                 placeholder="Subtitle"
               />
             </div>

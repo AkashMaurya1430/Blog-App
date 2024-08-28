@@ -10,9 +10,15 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
-const ToolBar = ({ changeActiveElement }) => {
+const ToolBar = ({ changeActiveElement, handleFileChange }) => {
+  const imageInputRef = useRef(null);
+
+  const handleImageUpload = () => {
+    imageInputRef.current.click();
+  };
+
   const captureActiveInput = (active_input) => {
     changeActiveElement(active_input);
   };
@@ -41,13 +47,21 @@ const ToolBar = ({ changeActiveElement }) => {
           icon={faCode}
         />
 
-        <FontAwesomeIcon
-          onClick={() => {
-            captureActiveInput("image");
-          }}
-          className="text-dark-100 p-2 rounded-full cursor-pointer hover:underline hover:bg-light-0 hover:underline-offset-1"
-          icon={faImage}
-        />
+        <div>
+          <FontAwesomeIcon
+            onClick={handleImageUpload}
+            className="text-dark-100 p-2 rounded-full cursor-pointer hover:underline hover:bg-light-0 hover:underline-offset-1"
+            icon={faImage}
+          />
+          <input
+            type="file"
+            ref={imageInputRef}
+            style={{ display: "none" }}
+            accept="image/*"
+            multiple
+            onChange={handleFileChange}
+          />
+        </div>
       </div>
     </div>
   );

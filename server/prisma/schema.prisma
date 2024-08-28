@@ -21,3 +21,43 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+//-------------- Model For Blog Starts ----------------
+
+model Blog {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  subtitle  String
+  isDraft  Boolean
+  authors   String[]  @db.ObjectId
+  Sections Section[]   @default([])
+}
+
+type Section{
+  type Sectiontype
+  text TextSection ? 
+  image ImageSection ?
+  code  CodeSection ?
+}
+
+// '?' Indicates that the field is optional, by default the fields are required, unless we specify '?'
+
+type TextSection{
+  html String
+  isDraft Boolean @default(true)
+}
+type ImageSection{
+  image_path String
+  isDraft Boolean @default(true)
+}
+type CodeSection{
+  language String
+  html String
+  isDraft Boolean @default(true)
+}
+type QuoteSection{
+  text String
+  isDraft Boolean @default(true)
+}
+
+//-------------- Model For Blog Ends ----------------
