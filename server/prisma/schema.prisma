@@ -29,8 +29,23 @@ model Blog {
   title     String
   subtitle  String
   isDraft  Boolean
+  likes   String[] @db.ObjectId
+  comments Comment[]
   authors   String[]  @db.ObjectId
   Sections Section[]   @default([])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Comment {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  blogId      String      @db.ObjectId
+  authorId    String      @db.ObjectId
+  content     String
+  createdAt   DateTime    @default(now())
+  
+  blog        Blog        @relation(fields: [blogId], references: [id])
+  author      User        @relation(fields: [authorId], references: [id])
 }
 
 type Section{
